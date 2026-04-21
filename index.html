@@ -19,7 +19,7 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0,0,0,0.8);
-            max-width: 650px;
+            max-width: 750px; 
             width: 100%;
         }
         h2 {
@@ -29,11 +29,11 @@
             padding-bottom: 15px;
             margin-top: 0;
         }
-        /* Diseño de la cuadrícula */
+
         .stat-grid {
             display: grid;
-            grid-template-columns: 2fr 1.5fr 1.5fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1.5fr 1fr 1.5fr 1.5fr 1fr;
+            gap: 12px;
             align-items: center;
             margin-bottom: 12px;
         }
@@ -43,15 +43,11 @@
             border-bottom: 1px solid #333;
             padding-bottom: 8px;
             margin-bottom: 15px;
-            font-size: 0.9em;
+            font-size: 0.85em;
             text-align: center;
         }
-        .stat-name {
-            font-weight: bold;
-            font-size: 1.1em;
-            text-align: left;
-        }
-        /* Colores de las stats */
+        .stat-name { font-weight: bold; font-size: 1.1em; text-align: left; }
+        
         .color-ps { color: #FF5959; }
         .color-atk { color: #F5AC78; }
         .color-def { color: #FAE078; }
@@ -61,7 +57,7 @@
 
         input[type="number"] {
             width: 100%;
-            padding: 10px;
+            padding: 8px;
             background-color: #2d2d2d;
             color: white;
             border: 1px solid #444;
@@ -71,10 +67,15 @@
             font-size: 1em;
             transition: border-color 0.2s;
         }
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #3b4cca;
+        input[type="number"]:focus { outline: none; border-color: #3b4cca; }
+        
+        .current-sp-input {
+            background-color: #1a1a1a !important;
+            border-color: #333 !important;
+            color: #888 !important;
         }
+        .current-sp-input:focus { color: #fff !important; }
+
         .vp-cost {
             text-align: right;
             color: #4CAF50;
@@ -91,70 +92,36 @@
             margin-top: 20px;
         }
         .extras-title {
-            margin-top: 0;
-            color: #aaa;
-            font-size: 0.9em;
-            border-bottom: 1px solid #444;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            margin-top: 0; color: #aaa; font-size: 0.9em;
+            border-bottom: 1px solid #444; padding-bottom: 8px;
+            margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px;
         }
-        .extra-item {
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-        }
-        .extra-item label {
-            cursor: pointer;
-            font-size: 1em;
-            display: flex;
-            align-items: center;
-        }
-        .extra-item input[type="checkbox"] {
-            margin-right: 12px;
-            transform: scale(1.3);
-            cursor: pointer;
-            accent-color: #e3350d;
-        }
-        .moves-input {
-            width: 70px !important;
-            padding: 5px !important;
-            margin-left: 10px;
-        }
+        .extra-item { margin-bottom: 12px; display: flex; align-items: center; }
+        .extra-item label { cursor: pointer; font-size: 1em; display: flex; align-items: center; }
+        .extra-item input[type="checkbox"] { margin-right: 12px; transform: scale(1.3); cursor: pointer; accent-color: #e3350d; }
+        .moves-input { width: 70px !important; padding: 5px !important; margin-left: 10px; }
 
-        /* Panel de Totales Limpio */
+        /* Panel de Totales */
         .totals-panel {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 1.1em;
-            border-top: 3px solid #555;
-            transition: border-color 0.3s;
+            margin-top: 20px; padding: 15px; background-color: #1a1a1a;
+            border-radius: 8px; display: flex; justify-content: space-between;
+            font-size: 1.1em; border-top: 3px solid #555; transition: border-color 0.3s;
         }
         .totals-panel span { font-weight: bold; color: #ffcc00; transition: color 0.3s; }
-
-        /* Clases dinámicas de error para el límite de 66 SP */
         .error-limit { color: #ff4444 !important; }
         .panel-error { border-top-color: #ff4444 !important; }
         
         button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background-color: #e3350d;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            width: 100%; padding: 12px; margin-top: 20px;
+            background-color: #e3350d; color: white; border: none;
+            border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer;
         }
         button:hover { background-color: #b32a0a; }
+
+        @media (max-width: 600px) {
+            .stat-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+            .vp-cost, .header-row .vp-title { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -164,9 +131,10 @@
 
     <div class="stat-grid header-row">
         <div style="text-align: left;">STAT</div>
-        <div>Evs Value <br><span style="font-size:0.8em; font-weight:normal;">(ninth gen / earlier)</span></div>
-        <div>SP value <br><span style="font-size:0.8em; font-weight:normal;">(Champions)</span></div>
-        <div style="text-align: right;">VP Cost</div>
+        <div>Current SP <br><span style="font-size:0.8em; font-weight:normal;">(Already trained)</span></div>
+        <div>Target EVs <br><span style="font-size:0.8em; font-weight:normal;">(Guides)</span></div>
+        <div>Target SP <br><span style="font-size:0.8em; font-weight:normal;">(Champions)</span></div>
+        <div class="vp-title" style="text-align: right;">New VP Cost</div>
     </div>
 
     <div id="statsContainer"></div>
@@ -174,22 +142,13 @@
     <div class="extras-panel">
         <h3 class="extras-title">Extra VP Costs</h3>
         <div class="extra-item">
-            <label>
-                <input type="checkbox" id="chkAbility" onchange="actualizarTotales()">
-                Change Ability (+500 VP)
-            </label>
+            <label><input type="checkbox" id="chkAbility" onchange="actualizarTotales()"> Change Ability (+500 VP)</label>
         </div>
         <div class="extra-item">
-            <label>
-                <input type="checkbox" id="chkNature" onchange="actualizarTotales()">
-                Change Nature (+500 VP)
-            </label>
+            <label><input type="checkbox" id="chkNature" onchange="actualizarTotales()"> Change Nature (+500 VP)</label>
         </div>
         <div class="extra-item">
-            <label>
-                Moves to learn (+250 VP each):
-                <input type="number" id="numMoves" class="moves-input" min="0" max="4" value="0" oninput="actualizarTotales()">
-            </label>
+            <label>Moves to learn (+250 VP each): <input type="number" id="numMoves" class="moves-input" min="0" max="4" value="0" oninput="actualizarTotales()"></label>
         </div>
     </div>
 
@@ -219,6 +178,7 @@
             row.className = 'stat-grid';
             row.innerHTML = `
                 <div class="stat-name ${stat.color}">${stat.name}</div>
+                <div><input type="number" id="curr_${index}" class="current-sp-input" min="0" max="32" placeholder="0" oninput="actualizarCostos(${index})"></div>
                 <div><input type="number" id="ev_${index}" min="0" max="252" placeholder="e.g, 252" oninput="desdeEV(${index})"></div>
                 <div><input type="number" id="sp_${index}" min="0" max="32" placeholder="e.g, 32" oninput="desdeSP(${index})"></div>
                 <div class="vp-cost" id="vp_${index}">0 VP</div>
@@ -227,15 +187,14 @@
         });
     }
 
+    // Calcula de EVs a SP
     function desdeEV(index) {
         let evs = parseInt(document.getElementById(`ev_${index}`).value);
         let cajaSP = document.getElementById(`sp_${index}`);
-        let cajaVP = document.getElementById(`vp_${index}`);
 
         if (isNaN(evs)) {
             cajaSP.value = "";
-            cajaVP.innerText = "0 VP";
-            actualizarTotales();
+            actualizarCostos(index);
             return;
         }
 
@@ -247,19 +206,17 @@
         if (sp > 32) sp = 32;
 
         cajaSP.value = sp;
-        cajaVP.innerText = (sp * 5) + " VP";
-        actualizarTotales();
+        actualizarCostos(index);
     }
 
+    // Calcula de SP a EVs
     function desdeSP(index) {
         let sp = parseInt(document.getElementById(`sp_${index}`).value);
         let cajaEV = document.getElementById(`ev_${index}`);
-        let cajaVP = document.getElementById(`vp_${index}`);
 
         if (isNaN(sp)) {
             cajaEV.value = "";
-            cajaVP.innerText = "0 VP";
-            actualizarTotales();
+            actualizarCostos(index);
             return;
         }
 
@@ -271,19 +228,37 @@
         if (evs > 252) evs = 252;
 
         cajaEV.value = evs;
-        cajaVP.innerText = (sp * 5) + " VP";
+        actualizarCostos(index);
+    }
+
+    // Calcula la diferencia y actualiza VP de esa fila
+    function actualizarCostos(index) {
+        let currentSP = parseInt(document.getElementById(`curr_${index}`).value) || 0;
+        let targetSP = parseInt(document.getElementById(`sp_${index}`).value) || 0;
+        
+        if (currentSP > 32) { currentSP = 32; document.getElementById(`curr_${index}`).value = 32; }
+        if (currentSP < 0) currentSP = 0;
+
+        // El costo es 0 si ya tienes más SP de los que quieres alcanzar
+        let spToBuy = Math.max(0, targetSP - currentSP);
+        document.getElementById(`vp_${index}`).innerText = (spToBuy * 5) + " VP";
+        
         actualizarTotales();
     }
 
     function actualizarTotales() {
-        let sumaEV = 0, sumaSP = 0, sumaVP = 0;
+        let sumaEV = 0, sumaTargetSP = 0, sumaVP = 0;
         
         for (let i = 0; i < 6; i++) {
             let ev = parseInt(document.getElementById(`ev_${i}`).value) || 0;
-            let sp = parseInt(document.getElementById(`sp_${i}`).value) || 0;
+            let currentSP = parseInt(document.getElementById(`curr_${i}`).value) || 0;
+            let targetSP = parseInt(document.getElementById(`sp_${i}`).value) || 0;
+            
             sumaEV += ev;
-            sumaSP += sp;
-            sumaVP += (sp * 5);
+            sumaTargetSP += targetSP;
+            
+            let spToBuy = Math.max(0, targetSP - currentSP);
+            sumaVP += (spToBuy * 5);
         }
 
         const chkAbility = document.getElementById('chkAbility').checked;
@@ -299,14 +274,13 @@
 
         document.getElementById('sumaEVs').innerText = sumaEV;
         const spanSPs = document.getElementById('sumaSPs');
-        spanSPs.innerText = sumaSP;
+        spanSPs.innerText = sumaTargetSP;
         document.getElementById('sumaVPs').innerText = sumaVP;
 
-        // Lógica visual para la validación del límite de 66 SP
         const warningSP = document.getElementById('warningSP');
         const mainPanel = document.getElementById('mainTotalsPanel');
 
-        if (sumaSP > 66) {
+        if (sumaTargetSP > 66) {
             spanSPs.classList.add('error-limit');
             warningSP.style.display = 'inline';
             mainPanel.classList.add('panel-error');
@@ -319,15 +293,14 @@
 
     function reiniciarStats() {
         for (let i = 0; i < 6; i++) {
+            document.getElementById(`curr_${i}`).value = "";
             document.getElementById(`ev_${i}`).value = "";
             document.getElementById(`sp_${i}`).value = "";
             document.getElementById(`vp_${i}`).innerText = "0 VP";
         }
-        
         document.getElementById('chkAbility').checked = false;
         document.getElementById('chkNature').checked = false;
         document.getElementById('numMoves').value = "0";
-
         actualizarTotales();
     }
 
